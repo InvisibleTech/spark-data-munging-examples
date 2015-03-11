@@ -1,5 +1,5 @@
 // This sample assumes that the data files needed are available at the relative path
- val sp500Cos = sc.textFile("data/constituents-financials.csv"
+ val sp500Cos = sc.textFile("data/constituents-financials.csv")
 
  // At any point type :history to see what you'ev typed in the past to get it back to copy
  // or save in a file.
@@ -21,4 +21,3 @@ splitSample.getClass
  // This is because we did not use any of Spark's capabilities to support typed data.. 
  // we simply loaded and split the records on the delimiter, naively and in the end 
  // not efficiently.
- 
