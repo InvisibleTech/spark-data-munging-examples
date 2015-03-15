@@ -7,8 +7,7 @@
  }
                               
 // You need to remove the headers.
-
- val headerRemoved = sp500Cos.filterNot(x => isHeader(x))
+ val headerRemoved = sp500Cos.filter(!isHeader(_))
 
  // At any point type :history to see what you'ev typed in the past to get it back to copy
  // or save in a file.
@@ -25,7 +24,7 @@ splitSample.size
 splitSample.getClass
 
 // If we try to simply dump out the contents like this we see that all the Arrays are strings
- splitSample.foreach(x => println(x))
+ splitSample.foreach(x => println(x.mkString))
 
  // This is because we did not use any of Spark's capabilities to support typed data.. 
  // we simply loaded and split the records on the delimiter, naively and in the end 
