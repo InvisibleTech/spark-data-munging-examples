@@ -7,6 +7,7 @@ import org.apache.spark.sql._
  }
                               
 // You need to get the headers and use them for the schema
+// NOTE: you need to see how to deal with names that have commas.
  val header = sp500Cos.filter(isHeader(_)).collect()(0).split(",")
 // Get the SQL Context 
 val sqlContext = new org.apache.spark.sql.SQLContext(sc)
@@ -18,7 +19,7 @@ val schema = StructType(header.map(fieldName => StructField(fieldName, StringTyp
 val sp500Lines = sp500Cos.filter(!isHeader(_))
 
 // Make Rows
-val rowRDD = sp500Lines.map(p=>{Row.fromSeq(p.split(","))})
+val rowRDD = sp500Lines.map(p=>{Row.fromSeq(p.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)"))})
 
 // Finally apply the schema and get a temp table from which to query.
 val sp500SchemaRDD = sqlContext.applySchema(rowRDD, schema)
