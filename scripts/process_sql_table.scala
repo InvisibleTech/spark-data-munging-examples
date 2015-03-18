@@ -1,32 +1,25 @@
 import java.sql.DriverManager
 import java.sql.ResultSet
+import java.sql.Connection
 import org.apache.spark.rdd.JdbcRDD
 
-// This should work, but I think I need some other jars.  Of course.
+// To push jars to workers you need the path to the jar.  Could not get relative paths to work.
 sc.addJar("file:////Users/johnferguson/Documents/Code/scala/spark-1.2.1-bin-hadoop2.4/lib/postgresql-9.3-1103.jdbc41.jar") 
 
-// Because you cannot create the connection and pass it to the RDD for remote processing,
-// we need to use the more roundabout way to let the worker process connect.
-def createConnection() = {
-  Class.forName("org.postgresql.Driver").newInstance();
+def extractValues(r: ResultSet) = {
+  (r.getString(1), r.getDouble(4))
+}
+
+val connector: () => Connection = () => {
+  Class.forName("org.postgresql.Driver");
   DriverManager.getConnection("jdbc:postgresql://localhost/sparkdemo?user=johnferguson")
 }
 
-def extractValues(r: ResultSet) = {
-  (r.getInt(1), r.getString(2))
-}
-
-// NOTE:
-// This code assumes you have added the correct Postgresql driver to your
-// Spark classpath.  One simple way is to put it somewhere like Spark's lib folder
-// and invoke it like this:
+// Because you cannot create the connection and pass it to the RDD for remote processing,
+// we need to use the more roundabout way to let the worker process connect.
 //
+// Also, you need to help the shell help you by informing it about the driver jars needed:
 // 
+// ../bin/spark-shell --jars ../lib/postgresql-9.3-1103.jdbc41.jar
 //
-val driver = Class.forName("org.postgresql.Driver").newInstance()
-
-val conn = DriverManager.getConnection("jdbc:postgresql://localhost/sparkdemo?user=johnferguson")
-
-val data = new JdbcRDD(sc, createConnection, "SELECT * FROM sp500 OFFSET ? LIMIT ?", lowerBound=Long.MaxValue, upperBound=0, numPartitions = 2, mapRow = extractValues)
-
-println(data.collect().toList)
+val myRDD = new JdbcRDD( sc, connector, "SELECT * FROM sp500 LIMIT ? OFFSET ?", lowerBound=Integer.MAX_VALUE, upperBound=1, numPartitions = 2, mapRow = extractValues)
