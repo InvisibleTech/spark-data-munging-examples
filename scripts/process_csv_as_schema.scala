@@ -8,7 +8,7 @@ import org.apache.spark.sql._
                               
 // You need to get the headers and use them for the schema
 // NOTE: you need to see how to deal with names that have commas.
- val header = sp500Cos.filter(isHeader(_)).collect()(0).split(",")
+val header = sp500Cos.filter(isHeader(_)).collect()(0).split(",")
 // Get the SQL Context 
 val sqlContext = new org.apache.spark.sql.SQLContext(sc)
 
