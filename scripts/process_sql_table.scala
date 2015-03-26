@@ -10,7 +10,6 @@ import org.apache.spark.sql._
 // To push jars to workers you need the path to the jar.  Could not get relative paths to work.
 sc.addJar("file:////Users/johnferguson/Documents/Code/scala/spark-1.2.1-bin-hadoop2.4/lib/postgresql-9.3-1103.jdbc41.jar") 
 
-
 // Convert
 def extractValues(r: ResultSet) = {
   (r.getString(1), r.getDouble(4))
