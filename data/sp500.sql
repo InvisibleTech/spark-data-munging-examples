@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS sp500;
 CREATE TABLE sp500
 (
   "Symbol" text,
