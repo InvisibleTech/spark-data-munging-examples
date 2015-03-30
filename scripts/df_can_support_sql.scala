@@ -1,3 +1,5 @@
+// SQLContext is the main tool for this demo.  SparkContext, a.k.a. "sc" in the shell
+// loads files into RDDs of String.  Which you'd have to parse and map... blah, blah, blah.
 val sqlContext = new org.apache.spark.sql.SQLContext(sc)
 
 
@@ -10,7 +12,7 @@ val jsonDf = sqlContext.load("data/sp500IndexPEAndDiv.json", "json")
 // codey bits you can do some cool things by registering a tempTable
 jsonDf.registerTempTable("sp500")
 
-// Now this json is a bit messay let's see some of the numeric data is string
+// Now this json is a bit messy let's see some of the numeric data is string
 val avgCPIAnon = sqlContext.sql("SELECT AVG(`Consumer Price Index`) FROM sp500")
 // The name assigned to the result is generated but you can name it...
 val avgCPINamed = sqlContext.sql("SELECT AVG(`Consumer Price Index`) as AvgCPI FROM sp500")
