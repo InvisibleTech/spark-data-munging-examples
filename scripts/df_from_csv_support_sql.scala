@@ -10,8 +10,6 @@ import org.apache.spark.sql.types._
 // You need to get the headers and use them for the schema
 // NOTE: you need to see how to deal with names that have commas.
 val header = sp500financials.filter(isHeader(_)).collect()(0).split(",")
-// Get the SQL Context 
-val sqlContext = new org.apache.spark.sql.SQLContext(sc)
 
 // Simplistic Schema creation - we assume they are all nullable Strings and you notice here
 // that we don't have the nice type inferencing for free like with JSON.
@@ -28,6 +26,9 @@ val sp500financialsDF = sqlContext.createDataFrame(rowRDD, schema)
 
 sp500financialsDF.registerTempTable("sp500fin")
 
-val avgEPS = sqlContext.sql("SELECT AVG(`Earnings/Share`) FROM sp500fin")
+val all =  sqlContext.sql("SELECT * FROM sp500fin")
+all.show
+
+val avgEPSAnon = sqlContext.sql("SELECT AVG(`Earnings/Share`) FROM sp500fin")
 val avgEPSNamed = sqlContext.sql("SELECT AVG(`Earnings/Share`) as AvgEPS FROM sp500fin")
 val avgEPSProg = sp500financialsDF.agg(avg(sp500financialsDF.col("Earnings/Share")))
