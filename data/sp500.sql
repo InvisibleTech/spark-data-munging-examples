@@ -1,21 +1,21 @@
 DROP TABLE IF EXISTS sp500;
 CREATE TABLE sp500
 (
-  "Symbol" text,
-  "Name" text,
-  "Sector" text,
-  "Price" double precision,
-  "Dividend Yield" double precision,
-  "Price/Earnings" double precision,
-  "Earnings/Share" double precision,
-  "Book Value" double precision,
-  "52 week low" double precision,
-  "52 week high" double precision,
-  "Market Cap" double precision,
-  "EBITDA" double precision,
-  "Price/Sales" double precision,
-  "Price/Book" double precision,
-  "SEC Filings" text
+  symbol text,
+  name text,
+  sector text,
+  price double precision,
+  dividend_yield double precision,
+  price_earnings double precision,
+  earnings_share double precision,
+  book_value double precision,
+  _52_week_low double precision,
+  _52_week_high double precision,
+  market_cap double precision,
+  ebitda double precision,
+  price_sales double precision,
+  price_book double precision,
+  sec_filings text
 )
 WITH (
   OIDS=FALSE
