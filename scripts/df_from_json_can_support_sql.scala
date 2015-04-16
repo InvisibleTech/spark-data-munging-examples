@@ -5,7 +5,7 @@ sqlContext.tables
 // You  can load it either way:
 val jsonDf = sqlContext.load("data/sp500IndexPEAndDiv.json", "json")
 
-// val jsonDf = sqlContext.jsonFile("data/sp500IndexPEAndDiv.json")
+val jsonDf = sqlContext.jsonFile("data/sp500IndexPEAndDiv.json")
 
 // jsonDf has a DataFrame which has schema information.  If you prefer SQL to lots of
 // codey bits you can do some cool things by registering a tempTable
